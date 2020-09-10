@@ -103,10 +103,38 @@ export class JobsScreen extends React.Component<JobsScreenProps, JobsScreenState
   filterJobs = (jobs: JobRecord[], availability: Availability): void => {
     // Step 0: Clone the jobs input
     const newJobs: JobRecord[] = cloneDeep(jobs);
-    console.log(newJobs, availability);
+    //console.log(newJobs, availability);
 
     // Step 1: Remove jobs where the schedule doesn't align with the users' availability.
 
+    // Build array of worker's available days to compare against each job schedule
+    const availableDays: Array<string> = [];
+    if (availability.monday) {availableDays.push("Monday");}
+    if (availability.tuesday) {availableDays.push("Tuesday");}
+    if (availability.wednesday) {availableDays.push("Wednesday");}
+    if (availability.thursday) {availableDays.push("Thursday");}
+    if (availability.friday) {availableDays.push("Friday");}
+  //  console.log(availableDays);
+
+    newJobs.forEach( (item, index, object) => {
+      for (const [i, day] of Object.entries(item.schedule)) {
+       // console.log(item.storeName, day, availableDays.includes(day))
+        if (!availableDays.includes(day)) {
+      //    console.log('before', item.storeName)
+          newJobs.slice(index,1);
+          continue;
+        }
+      }
+    })
+    
+  //for (let job of newJobs) {
+    //  console.log(job)
+    //  if (job.schedule.filter(day => availableDays.includes(day.toLowerCase())).length === 0) {
+        //delete newJobs[key];
+        //}
+     // }
+    //}
+    
     // Step 2: Save into state
     this.setState({ jobs: newJobs });
   };
