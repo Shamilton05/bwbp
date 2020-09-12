@@ -114,26 +114,16 @@ export class JobsScreen extends React.Component<JobsScreenProps, JobsScreenState
     if (availability.wednesday) {availableDays.push("Wednesday");}
     if (availability.thursday) {availableDays.push("Thursday");}
     if (availability.friday) {availableDays.push("Friday");}
-  //  console.log(availableDays);
 
     newJobs.forEach( (item, index, object) => {
       for (const [i, day] of Object.entries(item.schedule)) {
-       // console.log(item.storeName, day, availableDays.includes(day))
         if (!availableDays.includes(day)) {
-      //    console.log('before', item.storeName)
           newJobs.slice(index,1);
           continue;
         }
       }
     })
     
-  //for (let job of newJobs) {
-    //  console.log(job)
-    //  if (job.schedule.filter(day => availableDays.includes(day.toLowerCase())).length === 0) {
-        //delete newJobs[key];
-        //}
-     // }
-    //}
     
     // Step 2: Save into state
     this.setState({ jobs: newJobs });
